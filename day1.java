@@ -18,19 +18,24 @@ class day1 {
         while (inputScanner.hasNextLine()) {
             // Load a line up:
             String inputString = inputScanner.nextLine();
+            // System.out.println(" Input string:" + inputString);
 
             // Grab only integers:
             // https://stackoverflow.com/a/17076047
             // replaceAll uses RegEx, removing any character that isn't a digit.
             String cleanedInput = inputString.replaceAll("\\D+", "");
+            // System.out.println(" Cleaned input: " + cleanedInput);
 
             // Get the first and last digit (which can be the same digit):
-            int firstInt = cleanedInput.charAt(0);
-            int lastInt = cleanedInput.charAt(cleanedInput.length() - 1);
+            int firstInt = cleanedInput.charAt(0) - 48;
+            // System.out.println(" First integer is: " + firstInt);
+            int lastInt = cleanedInput.charAt(cleanedInput.length() - 1) - 48;
+            // System.out.println(" Last integer is: " + lastInt);
 
             // Concatenate the integers together:
             // https://stackoverflow.com/a/13268944
             int lineSum = Integer.valueOf(String.valueOf(firstInt) + String.valueOf(lastInt));
+            // System.out.println(" Integer value: " + lineSum);
             totalSum += lineSum;
         }
 
