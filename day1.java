@@ -16,19 +16,20 @@ class day1 {
         Scanner inputScanner = new Scanner(inputFile);
 
         // Start parsing input lines for integers, summing them together:
-        int totalSum = 0;
+        long totalSum = 0;
         while (inputScanner.hasNextLine()) {
             // Load a line up:
             String inputString = inputScanner.nextLine();
             System.out.println(" Input string:" + inputString);
 
             // For part two, replace any instances of words with their digits:
-            // NOTE: I need to do this differently.
+            // TODO: I need to do this differently!  Words CAN overlap!
             String cleanedInput = inputString;
             // https://www.geeksforgeeks.org/matcher-pattern-method-in-java-with-examples/
             Pattern wordPattern = Pattern.compile("(one|two|three|four|five|six|seven|eight|nine|ten)");
             Matcher wordMatcher = wordPattern.matcher(cleanedInput);
             while (wordMatcher.find()) {
+                System.out.println(" Number of groups found: " + wordMatcher.groupCount());
                 String word = wordMatcher.group(); // https://stackoverflow.com/a/5091147
                 // System.out.println(" Word found: " + word);
                 switch (word) {
@@ -83,6 +84,7 @@ class day1 {
             int lineSum = Integer.valueOf(String.valueOf(firstInt) + String.valueOf(lastInt));
             System.out.println(" Integer value: " + lineSum);
             totalSum += lineSum;
+            System.out.println(" Current sum is: " + totalSum);
         }
 
         System.out.println("The answer for the given input is: " + totalSum);
