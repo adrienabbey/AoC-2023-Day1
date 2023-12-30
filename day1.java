@@ -1,5 +1,7 @@
 /* Advent of Code, Day 1: Trebuchet?!
  * Adrien Abbey, Dec. 2023
+ * Part 1's solution: 55208
+ * Part 2's solution: 54578
  */
 
 import java.io.File;
@@ -21,7 +23,6 @@ class day1 {
         while (inputScanner.hasNextLine()) {
             // Load a line up:
             String inputString = inputScanner.nextLine();
-            // System.out.println(" Input string: " + inputString);
 
             // Create a string to contain the found numbers:
             ArrayList<Integer> foundIntegers = new ArrayList<Integer>();
@@ -29,29 +30,27 @@ class day1 {
             // Go through the input string, parsing any numbers found:
             for (int i = 0; i < inputString.length(); i++) {
                 if (parseNumber(inputString.substring(i)) > 0) {
-                    // System.out.println(" Adding a new number: " +
-                    // parseNumber(inputString.substring(i)));
+                    // Found a valid number. Add it to the list:
                     foundIntegers.add(parseNumber(inputString.substring(i)));
                 }
             }
 
-            // System.out.println(" Found numbers are: " + foundIntegers);
-
             // Get the first and last digit (which can be the same digit):
             int firstInt = foundIntegers.get(0);
-            // System.out.println(" First integer is: " + firstInt);
             int lastInt = foundIntegers.get(foundIntegers.size() - 1);
-            // System.out.println(" Last integer is: " + lastInt);
 
             // Concatenate the integers together:
             // https://stackoverflow.com/a/13268944
             String stringSum = firstInt + "" + lastInt;
+
+            // Convert the string to an integer:
             int lineSum = Integer.parseInt(stringSum);
-            // System.out.println(" Integer value: " + lineSum);
+
+            // Add that to the current sum:
             totalSum += lineSum;
-            // System.out.println(" Current sum is: " + totalSum);
         }
 
+        // Print the final answer:
         System.out.println("The answer for the given input is: " + totalSum);
 
         inputScanner.close();
