@@ -4,9 +4,8 @@
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 class day1 {
     public static void main(String[] args) throws FileNotFoundException {
@@ -15,80 +14,75 @@ class day1 {
         File inputFile = new File("input");
         Scanner inputScanner = new Scanner(inputFile);
 
-        // Start parsing input lines for integers, summing them together:
+        // Track the total sum:
         long totalSum = 0;
+
+        // Start parsing input lines for integers, summing them together:
         while (inputScanner.hasNextLine()) {
             // Load a line up:
             String inputString = inputScanner.nextLine();
-            System.out.println(" Input string:" + inputString);
+            // System.out.println(" Input string: " + inputString);
 
-            // For part two, replace any instances of words with their digits:
-            // TODO: I need to do this differently!  Words CAN overlap!
-            String cleanedInput = inputString;
-            // https://www.geeksforgeeks.org/matcher-pattern-method-in-java-with-examples/
-            Pattern wordPattern = Pattern.compile("(one|two|three|four|five|six|seven|eight|nine|ten)");
-            Matcher wordMatcher = wordPattern.matcher(cleanedInput);
-            while (wordMatcher.find()) {
-                System.out.println(" Number of groups found: " + wordMatcher.groupCount());
-                String word = wordMatcher.group(); // https://stackoverflow.com/a/5091147
-                // System.out.println(" Word found: " + word);
-                switch (word) {
-                    case "one":
-                        cleanedInput = cleanedInput.replaceFirst("one", "1");
-                        break;
-                    case "two":
-                        cleanedInput = cleanedInput.replaceFirst("two", "2");
-                        // System.out.println(" Replacing two with 2.");
-                        // System.out.println(cleanedInput);
-                        break;
-                    case "three":
-                        cleanedInput = cleanedInput.replaceFirst("three", "3");
-                        break;
-                    case "four":
-                        cleanedInput = cleanedInput.replaceFirst("four", "4");
-                        break;
-                    case "five":
-                        cleanedInput = cleanedInput.replaceFirst("five", "5");
-                        break;
-                    case "six":
-                        cleanedInput = cleanedInput.replaceFirst("six", "6");
-                        break;
-                    case "seven":
-                        cleanedInput = cleanedInput.replaceFirst("seven", "7");
-                        break;
-                    case "eight":
-                        cleanedInput = cleanedInput.replaceFirst("eight", "8");
-                        break;
-                    case "nine":
-                        cleanedInput = cleanedInput.replaceFirst("nine", "9");
-                        // System.out.println(" Replacing nine with 9.");
-                        // System.out.println(cleanedInput);
-                        break;
+            // Create a string to contain the found numbers:
+            ArrayList<Integer> foundIntegers = new ArrayList<Integer>();
+
+            // Go through the input string, parsing any numbers found:
+            for (int i = 0; i < inputString.length(); i++) {
+                if (parseNumber(inputString.substring(i)) > 0) {
+                    // System.out.println(" Adding a new number: " +
+                    // parseNumber(inputString.substring(i)));
+                    foundIntegers.add(parseNumber(inputString.substring(i)));
                 }
             }
 
-            // Grab only integers:
-            // https://stackoverflow.com/a/17076047
-            // replaceAll uses RegEx, removing any character that isn't a digit.
-            cleanedInput = cleanedInput.replaceAll("\\D+", "");
-            System.out.println(" Cleaned input: " + cleanedInput);
+            // System.out.println(" Found numbers are: " + foundIntegers);
 
             // Get the first and last digit (which can be the same digit):
-            int firstInt = cleanedInput.charAt(0) - 48;
+            int firstInt = foundIntegers.get(0);
             // System.out.println(" First integer is: " + firstInt);
-            int lastInt = cleanedInput.charAt(cleanedInput.length() - 1) - 48;
+            int lastInt = foundIntegers.get(foundIntegers.size() - 1);
             // System.out.println(" Last integer is: " + lastInt);
 
             // Concatenate the integers together:
             // https://stackoverflow.com/a/13268944
-            int lineSum = Integer.valueOf(String.valueOf(firstInt) + String.valueOf(lastInt));
-            System.out.println(" Integer value: " + lineSum);
+            String stringSum = firstInt + "" + lastInt;
+            int lineSum = Integer.parseInt(stringSum);
+            // System.out.println(" Integer value: " + lineSum);
             totalSum += lineSum;
-            System.out.println(" Current sum is: " + totalSum);
+            // System.out.println(" Current sum is: " + totalSum);
         }
 
         System.out.println("The answer for the given input is: " + totalSum);
 
         inputScanner.close();
+    }
+
+    static int parseNumber(String inputString) {
+        // Given any string, if that string starts with an integer or a word
+        // of an integer, return that integer value. If none is found, return
+        // -1.
+
+        // If the first character in the string is a digit:
+        // https://stackoverflow.com/a/20735611
+        if (Character.isDigit(inputString.charAt(0))) {
+            // System.out.println(" - Substring is: " + inputString);
+            // System.out.println(" - Number found is: " + inputString.charAt(0));
+            return inputString.charAt(0) - 48;
+        }
+
+        // Create an array of Strings to compare with:
+        String[] numberNames = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
+
+        // Check for the given number names:
+        for (int i = 1; i < 10; i++) {
+            if (inputString.startsWith(numberNames[i - 1])) {
+                // System.out.println(" - Substring is: " + inputString);
+                // System.out.println(" - Number found is: " + i);
+                return i;
+            }
+        }
+
+        // If no valid integer was found, return -1:
+        return -1;
     }
 }
