@@ -13,7 +13,7 @@ class day1 {
     public static void main(String[] args) throws FileNotFoundException {
 
         // Load the input file for scanning:
-        File inputFile = new File("input");
+        File inputFile = new File("input.txt");
         Scanner inputScanner = new Scanner(inputFile);
 
         // Track the total sum:
